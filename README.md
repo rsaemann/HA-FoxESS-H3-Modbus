@@ -16,16 +16,18 @@
 Connecting to your H3 inverter can be acheived by:  
    
 * Connecting to the COM port using a [RS485 to USB](https://www.reichelt.de/raspberry-pi-usb-rs485-schnittstelle-ch340c-rpi-usb-rs485-p242783.html?&nbc=1) (Approved)
-
-* Using the inverters LAN port connected to your router/switch (no additional hardware required) could not be approved. Port 502 was not open. This solution might be fixed with future firmware. It is not possible with firmware version Master 1.25, Slave 1.02, Manage 1.29 
- 
 ⚠️ Additional hardware requires basic electronics competencies to connect the two additional wires for the RS485 interface to the inverters com connector.⚠️
+
+⚠️ Using the inverters LAN port connected to your router/switch (no additional hardware required) could not be approved for H3 inverters. Port 502 was not open. This solution might be fixed with future firmware. It is not possible with firmware version Master 1.25, Slave 1.02, Manage 1.29 ⚠️
+ 
+
 
 ---
 
 
 ## Supported Hardware
-This fork adds support for the **Hybrid Series H3**
+This fork adds support for the <br><img align="right" width=200 src="https://user-images.githubusercontent.com/13150440/200159634-6bfa1123-b9eb-4f78-b89a-3da9743b2b6f.PNG">
+**Hybrid Series H3**<br>
 Tested with<br>
 ✅ H3-8.0-E <br>
 <br>
@@ -37,7 +39,7 @@ Designed but not tested: <br>
 Please report if everything works well with these.
 
 The [origin project](https://github.com/StealthChesnut/HA-FoxESS-Modbus) supports 1-phase Inverters
-**Hybrid Series** <br> <img align="right" src="https://user-images.githubusercontent.com/6324545/166170598-7077d481-4d65-49b5-9816-1873c97dd853.png" >
+**Hybrid Series** <br> <img align="right" width=200 src="https://user-images.githubusercontent.com/6324545/166170598-7077d481-4d65-49b5-9816-1873c97dd853.png" >
 ✅ H1-3.0-E <br>
 ✅ H1-3.7-E <br>
 ✅ H1-4.6-E <br>
@@ -121,3 +123,4 @@ Please read and understand before using this plugin:
 You have been warned!
 
 ---
+
