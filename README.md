@@ -13,17 +13,30 @@
 
 ---
 
-Connecting to your inverter can be acheived in two ways:  
-* Using the inverters LAN port connected to your router/switch (no additional hardware required)  
-    
-* Connecting to the COM port using a [RS485 to USB](https://www.amazon.co.uk/dp/B078X5H8H7?ref_=cm_sw_r_cp_ud_dp_CR8FQK7A50FNCH530QJP) adapter or [WIFI/LAN RS485](https://www.amazon.co.uk/dp/B07DNWM62H?ref_=cm_sw_r_cp_ud_dp_BPWX7Z53PDES4WJ9JY89) converter  
+Connecting to your H3 inverter can be acheived by:  
+   
+* Connecting to the COM port using a [RS485 to USB](https://www.reichelt.de/raspberry-pi-usb-rs485-schnittstelle-ch340c-rpi-usb-rs485-p242783.html?&nbc=1) (Approved)
 
+* Using the inverters LAN port connected to your router/switch (no additional hardware required) could not be approved. Port 502 was not open. This solution might be fixed with future firmware. It is not possible with firmware version Master 1.25, Slave 1.02, Manage 1.29 
+ 
 ⚠️ Additional hardware requires basic electronics competencies to connect the two additional wires for the RS485 interface to the inverters com connector.⚠️
 
 ---
 
 
 ## Supported Hardware
+This fork adds support for the **Hybrid Series H3**
+Tested with<br>
+✅ H3-8.0-E <br>
+<br>
+Designed but not tested: <br>
+ H3-5.0-E <br>
+ H3-6.0-E <br>
+ H3-10.0-E <br>
+ H3-12.0-E <br>
+Please report if everything works well with these.
+
+The [origin project](https://github.com/StealthChesnut/HA-FoxESS-Modbus) supports 1-phase Inverters
 **Hybrid Series** <br> <img align="right" src="https://user-images.githubusercontent.com/6324545/166170598-7077d481-4d65-49b5-9816-1873c97dd853.png" >
 ✅ H1-3.0-E <br>
 ✅ H1-3.7-E <br>
@@ -49,19 +62,18 @@ Connecting to your inverter can be acheived in two ways:
 
 <p>The aim of this project is to enable the full use of the Energy dashboard in Home Assistant and is a fully functional replacement of the FoxESS App for reporting needs.</p>
 
-## HACS Specific Installation  
+## HACS Specific Installation (not tested)
 * Add this repository to your HACS custom integrations
 * Install from HACS
 
 ## Manual Specific installation
-* Hardware configuration instructions can be found on the [wiki](https://github.com/StealthChesnut/HA-FoxESS-Modbus/wiki/)
-* Copy the Required modbus file (USB or LAN) file to /config/custom_components/HA-FoxESS-Modbus/modbusLAN.yaml
+* Create the directory structure /config/custom_components/HA-FoxESS-Modbus/ (use the "file editor" addon of HA)
+* Copy the Required modbus file to /config/custom_components/HA-FoxESS-Modbus/modbusH3USB.yaml
 
 ## Then, Common Installation Steps
 
 * Create a full backup of your HA instance including the configuration.yaml file
-* Copy the Required modbus line (USB or LAN) and following contents of the [configuration.yaml](https://github.com/StealthChesnut/HA-FoxESS-Modbus/blob/main/custom_components/HA-FoxESS-Modbus/configuration.yaml) file to your config file
-* For LAN, create your Secrets file entry
+* Copy the Required modbus line (USB) and following contents of the [configuration.yaml](https://github.com/rsaemann/HA-FoxESS-H3-Modbus/blob/main/custom_components/HA-FoxESS-Modbus/configuration.yaml) file to your config file
 * Check your config is valid, then Restart HA
 * Map energy dashboard as per below example and enjoy configuring dashboards using near realtime data.
 
@@ -76,11 +88,9 @@ Connecting to your inverter can be acheived in two ways:
 
 ### Energy Dashboard Values
 
-⚠️Some values won't appear until a small amount of data has passed through that value. You may need to wait 24hrs before you can setup the energy dashboard.
-
 **Electricity Grid**
-- grid_daily
-- feedin_daily
+- eps-daily
+- consumption-daily
 
 **Solar Panels**
 
@@ -95,8 +105,9 @@ Connecting to your inverter can be acheived in two ways:
 ## Provided Entities
 
 **Registers**
+**The [H3 registers wiki](https://github.com/rsaemann/HA-FoxESS-H3-Modbus/wiki/H3-Modbus-Registers) has references for the 3-phase registers.**
 
-**The [wiki](https://github.com/StealthChesnut/HA-FoxESS-Modbus/wiki/Data-Register-Reference---H1-AC1) has references for the registers.**
+**The [H1 registers wiki](https://github.com/StealthChesnut/HA-FoxESS-Modbus/wiki/Data-Register-Reference---H1-AC1) shows the 1-phase registers.**
 
 
 <br>
@@ -110,5 +121,3 @@ Please read and understand before using this plugin:
 You have been warned!
 
 ---
-
-If you find this useful and are thinking of joining Octopus Energy, use my referral code! We both get £50 credit on our bills! https://share.octopus.energy/showy-pup-300
