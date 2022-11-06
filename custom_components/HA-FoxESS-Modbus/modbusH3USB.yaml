@@ -1,0 +1,357 @@
+# v0.1
+# Modbus Config for Fox ESS Hybrid H3 Inverter
+# Adapted by https://github.com/rsaemann/HA-FoxESS-H3-Modbus
+# Original for H1 inverters Created by https://github.com/StealthChesnut/HA-FoxESS-Modbus
+
+# ---------------------------RS485 Connection----------------------------------------
+#  For use when connecting to RS485 port of inverter
+#
+- name: HA-FoxESS-H3-Modbus-USB
+  type: serial
+  baudrate: 9600
+  bytesize: 8
+  method: rtu
+  parity: N
+  port: /dev/ttyUSB0  #This depends on your used USB-to-RS485 dongle
+  stopbits: 1 
+# 
+# ---------------------------------------------------------------------------
+# Device ID ("Slave", standard: 247) can be set in inverter menu configuration->communication->RS485->DeviceID
+
+  sensors:
+    - name: "PV1-Voltage"
+      scan_interval: 30
+      slave: 247
+      address: 31000
+      state_class: measurement
+      unit_of_measurement: "V"
+      data_type: int16
+      scale: 0.1
+      precision: 1
+      input_type: holding
+      device_class: voltage
+    - name: "PV1-Current"
+      scan_interval: 30
+      slave: 247
+      address: 31001
+      state_class: measurement
+      unit_of_measurement: "A"
+      data_type: int16
+      scale: 0.1
+      precision: 1
+      input_type: holding      
+      device_class: current
+    - name: "PV1-Power"
+      scan_interval: 30
+      slave: 247
+      address: 31002
+      state_class: measurement
+      unit_of_measurement: "W"
+      data_type: int16
+      scale: 1
+      precision: 0
+      input_type: holding      
+      device_class: power
+    - name: "PV2-Voltage"
+      scan_interval: 30
+      slave: 247
+      address: 31003
+      state_class: measurement
+      unit_of_measurement: "V"
+      data_type: int16
+      scale: 0.1
+      precision: 1
+      input_type: holding
+      device_class: voltage
+    - name: "PV2-Current"
+      scan_interval: 30
+      slave: 247
+      address: 31004
+      state_class: measurement
+      unit_of_measurement: "A"
+      data_type: int16
+      scale: 0.1
+      precision: 1
+      input_type: holding      
+      device_class: current
+    - name: "PV2-Power"
+      scan_interval: 30
+      slave: 247
+      address: 31005
+      state_class: measurement
+      unit_of_measurement: "W"
+      data_type: int16
+      scale: 1
+      precision: 0
+      input_type: holding  
+      device_class: power
+
+    - name: "Volt L1" # Grid Voltage
+      scan_interval: 30
+      slave: 247
+      address: 31006
+      state_class: measurement
+      unit_of_measurement: "V"
+      data_type: int16
+      precision: 2
+      scale: 0.1
+      input_type: holding
+      device_class: voltage
+    - name: "Volt L2" # Grid Voltage
+      scan_interval: 30
+      slave: 247
+      address: 31007
+      state_class: measurement
+      unit_of_measurement: "V"
+      data_type: int16
+      precision: 2
+      scale: 0.1
+      input_type: holding
+      device_class: voltage
+    - name: "Volt L3" # Grid Voltage
+      scan_interval: 30
+      slave: 247
+      address: 31008
+      state_class: measurement
+      unit_of_measurement: "V"
+      data_type: int16
+      precision: 2
+      scale: 0.1
+      input_type: holding
+      device_class: voltage
+      #Some adrresses (31009-31021) unknown, because I used the EPS output so far. Might be about output to grid/smart meter incoming values
+    - name: "L1 Power"
+      scan_interval: 30
+      slave: 247
+      address: 31022
+      state_class: measurement
+      unit_of_measurement: "W"
+      data_type: int16
+      scale: 1
+      precision: 0
+      input_type: holding  
+      device_class: power
+    - name: "L2 Power"
+      scan_interval: 30
+      slave: 247
+      address: 31023
+      state_class: measurement
+      unit_of_measurement: "W"
+      data_type: int16
+      scale: 1
+      precision: 0
+      input_type: holding  
+      device_class: power
+    - name: "L3 Power"
+      scan_interval: 30
+      slave: 247
+      address: 31024
+      state_class: measurement
+      unit_of_measurement: "W"
+      data_type: int16
+      scale: 1
+      precision: 0
+      input_type: holding  
+      device_class: power
+      
+    - name: "Freq" # Grid Frequency
+      scan_interval: 30
+      slave: 247
+      address: 31025
+      state_class: measurement
+      unit_of_measurement: "Hz"
+      data_type: int16
+      scale: 0.01
+      precision: 2
+      input_type: holding
+      device_class: frequency
+      
+    #- name: "Grid CT"
+    #  scan_interval: 30
+    #  address: 31014
+    #  state_class: measurement
+    #  unit_of_measurement: "W"
+    #  data_type: int16
+    #  scale: 1
+    #  precision: 0
+    #  input_type: holding    
+    #  device_class: power
+    #- name: "Load Power"    #H3 has 3 individual power loads ( per line)
+    #  scan_interval: 30
+    #  address: 31016
+    #  state_class: measurement
+    #  unit_of_measurement: "W"
+    #  data_type: int16
+    #  scale: 1
+    #  precision: 0
+    #  input_type: holding    
+    #  device_class: power
+    
+    - name: "Inv Temperature"
+      scan_interval: 30
+      slave: 247
+      address: 31032
+      state_class: measurement
+      unit_of_measurement: "°C"
+      data_type: int16
+      scale: 0.1
+      precision: 1
+      device_class: temperature
+      input_type: holding    
+    - name: "Inner Temperature"
+      scan_interval: 30
+      slave: 247
+      address: 31033
+      state_class: measurement
+      unit_of_measurement: "°C"
+      data_type: int16
+      scale: 0.1
+      precision: 1
+      device_class: temperature
+      input_type: holding
+      
+    - name: "Battery Voltage"
+      scan_interval: 30
+      address: 31034
+      state_class: measurement
+      unit_of_measurement: "V"
+      data_type: int16
+      scale: 0.1
+      precision: 1
+      device_class: voltage
+      input_type: holding
+    - name: "Battery Current"
+      scan_interval: 30
+      address: 31035
+      state_class: measurement
+      unit_of_measurement: "A"
+      data_type: int16
+      scale: 0.1
+      precision: 1
+      input_type: holding      
+      device_class: current
+    - name: "Battery Discharge Power"
+      scan_interval: 30
+      slave: 247
+      address: 31036
+      state_class: measurement
+      unit_of_measurement: "W"
+      data_type: int16
+      scale: 1
+      precision: 0
+      input_type: holding    
+      device_class: power
+    - name: "Battery Temperature"
+      scan_interval: 60
+      slave: 247
+      address: 31037
+      state_class: measurement
+      unit_of_measurement: "°C"
+      scale: 0.1
+      precision: 1
+      data_type: int16
+      input_type: holding
+      device_class: temperature
+    - name: "Battery SoC"
+      scan_interval: 30
+      slave: 247
+      address: 31038
+      state_class: measurement
+      unit_of_measurement: "%"
+      data_type: int16
+      input_type: holding
+      device_class: battery
+
+#cumulative values of Energy
+    - name: "PV Energy total"
+      scan_interval: 60
+      slave: 247
+      address: 32001
+      state_class: total_increasing
+      unit_of_measurement: "kWh"
+      scale: 0.1
+      precision: 1
+      data_type: int16
+      input_type: holding
+      device_class: energy
+    - name: "PV Energy daily"
+      scan_interval: 60
+      slave: 247
+      address: 32002
+      state_class: total_increasing
+      unit_of_measurement: "kWh"
+      scale: 0.1
+      precision: 1
+      data_type: int16
+      input_type: holding
+      device_class: energy
+      
+    - name: "Battery Charge Energy total"
+      scan_interval: 60
+      slave: 247
+      address: 32004
+      state_class: total_increasing
+      unit_of_measurement: "kWh"
+      scale: 0.1
+      precision: 1
+      data_type: int16
+      input_type: holding
+      device_class: energy
+    - name: "Battery Charge Energy daily"
+      scan_interval: 60
+      slave: 247
+      address: 32005
+      state_class: total_increasing
+      unit_of_measurement: "kWh"
+      scale: 0.1
+      precision: 1
+      data_type: int16
+      input_type: holding
+      device_class: energy
+      
+    - name: "Battery Discharge Energy total"
+      scan_interval: 60
+      slave: 247
+      address: 32007
+      state_class: total_increasing
+      unit_of_measurement: "kWh"
+      scale: 0.1
+      precision: 1
+      data_type: int16
+      input_type: holding
+      device_class: energy
+    - name: "Battery Discharge Energy daily"
+      scan_interval: 60
+      slave: 247
+      address: 32008
+      state_class: total_increasing
+      unit_of_measurement: "kWh"
+      scale: 0.1
+      precision: 1
+      data_type: int16
+      input_type: holding
+      device_class: energy
+      ## Some addresses (320010-32020) not known here, might be about grid/smartmeter values 
+    - name: "EPS Energy total"
+      scan_interval: 60
+      slave: 247
+      address: 32022
+      state_class: total_increasing
+      unit_of_measurement: "kWh"
+      scale: 0.1
+      precision: 1
+      data_type: int16
+      input_type: holding
+      device_class: energy
+    - name: "EPS Energy daily"
+      scan_interval: 60
+      slave: 247
+      address: 32023
+      state_class: total_increasing
+      unit_of_measurement: "kWh"
+      scale: 0.1
+      precision: 1
+      data_type: int16
+      input_type: holding
+      device_class: energy
+

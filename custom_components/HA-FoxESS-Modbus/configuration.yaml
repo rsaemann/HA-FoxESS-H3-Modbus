@@ -1,19 +1,16 @@
-# FoxESS Modbus Plugin - Configuration and Sensor Mappings
-# Source https://github.com/StealthChesnut/HA-FoxESS-Modbus
+# FoxESS Modbus H3 Plugin - Configuration and Sensor Mappings
+# Adapted by: https://github.com/rsaemann/HA-FoxESS-H3-Modbus
+# Original Source https://github.com/StealthChesnut/HA-FoxESS-Modbus
 # This file isn't a valid configuration file!
 
 # Instructions:
 # copy the custom_components directory to your HA custom_components directory
-# Add ONE of the modbus: lines to your configuration.yaml
-# Add the sensors below to your configuration.yaml 
+# Add the modbus: lines to your configuration.yaml
+# Add the sensors below to your configuration.yaml sensor section
 #
-# USB: Edit the file to update the connection settings
-#
-# LAN: Add a new secret to your secrets file - FoxESSInverterIP: <your inverter IP>
 
-
-modbus: !include custom_components/HA-FoxESS-Modbus/modbusUSB.yaml
-modbus: !include custom_components/HA-FoxESS-Modbus/modbusLAN.yaml
+# This defines where your HA looks up the credentials and sensor definition for the inverter
+modbus: !include custom_components/HA-FoxESS-Modbus/modbusH3USB.yaml
 
 #Sensors turn power values into power/hour values for meters
 sensor: 
@@ -71,7 +68,7 @@ template:
   - sensor:
       - name: "Battery Discharge"
         device_class: "power"
-        unit_of_measurement: "kW"
+        unit_of_measurement: "W"
         state: >
             {% if (states('sensor.battery_discharge_power') | float(default=0) ) > 0 %}
             {{ states('sensor.battery_discharge_power') | float(default=0) * 1 }}
@@ -80,16 +77,23 @@ template:
             {% endif %}
       - name: "Battery Charge"
         device_class: "power"
-        unit_of_measurement: "kW"
+        unit_of_measurement: "W"
         state: >
             {% if (states('sensor.battery_discharge_power') | float(default=0) ) < 0 %}
             {{ states('sensor.battery_discharge_power') | float(default=0) * -1 }}
             {% else %}
             0 
             {% endif %}
+      - name: "Load power"
+        device_class: "power"
+        unit_of_measurement: "W"
+        state: >
+               {{ (states('sensor.l1_power') | float(default=0)
+               + states('sensor.l2_power') | float(default=0)
+               + states('sensor.l3_power') | float(default=0)) | round(2) }}
       - name: "Feed In Power"
         device_class: "power"
-        unit_of_measurement: "kW"
+        unit_of_measurement: "W"
         state: >
             {% if (states('sensor.grid_ct') | float(default=0) ) > 0 %}
             {{ states('sensor.grid_ct') | float(default=0) * 1 }}
@@ -98,7 +102,7 @@ template:
             {% endif %}
       - name: "Grid Consumption"
         device_class: "power"
-        unit_of_measurement: "kW"
+        unit_of_measurement: "W"
         state: >
             {% if (states('sensor.grid_ct') | float(default=0) ) < 0 %}
             {{ states('sensor.grid_ct') | float(default=0) * -1 }}
@@ -107,17 +111,12 @@ template:
             {% endif %}
       - name: "PV Power Now"
         device_class: "power"
-        unit_of_measurement: "kW"
+        unit_of_measurement: "W"
         state: >
               {{ (states('sensor.pv1_power') | float(default=0) + states('sensor.pv2_power') | float(default=0) ) * 1 }}
-      - name: "PV Energy Daily"
-        device_class: "energy"
-        unit_of_measurement: "kWh"
-        state: >
-              {{ ((states('sensor.pv1_daily') | float(default=0) + states('sensor.pv2_daily') | float(default=0) ) * 1 ) | round(2) }} 
       - name: "System Losses"
         device_class: "power"
-        unit_of_measurement: "kW"
+        unit_of_measurement: "W"
         state: >
                {{ ((states('sensor.pv1_power') | float(default=0)
                + states('sensor.pv2_power') | float(default=0)
@@ -126,7 +125,13 @@ template:
                - states('sensor.battery_charge') | float(default=0)
                - states('sensor.feed_in_power') | float(default=0)
                - states('sensor.load_power') | float(default=0) )) | round(2) }}
-
+      - name: "EPS remaining time"
+        device_class: "duration"
+        unit_of_measurement: "hours"
+        # hardcoded values here: 20% minimum SoC (not usable), 14kWh battery total capacity -> 140 kwh/% strange unit
+        state: >
+               {{ (((states('sensor.battery_soc') | float(default=0)) -20)*140
+               / (states('sensor.load_power') | float(default=0))) | round(2) }}
 # Utility Meters - Provides meters to be used with the energy dashboard and reset daily
 utility_meter:
   load_daily:
@@ -137,12 +142,6 @@ utility_meter:
     cycle: daily
   pv2_daily:
     source: sensor.pv2_sum
-    cycle: daily
-  bat_charge_daily:
-    source: sensor.bat_charge_sum
-    cycle: daily
-  bat_discharge_daily:
-    source: sensor.bat_discharge_sum
     cycle: daily
   feedin_daily:
     source: sensor.feedin_sum
