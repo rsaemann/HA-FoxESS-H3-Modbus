@@ -128,8 +128,89 @@
       scale: 0.1
       input_type: holding
       device_class: voltage
+    - name: "Inv Current R" #Main out current L1
+      unique_id: foxess_inv1_inv_current_R
+      scan_interval: 30
+      address: 31009
+      state_class: measurement
+      unit_of_measurement: "A"
+      data_type: int16
+      scale: 0.1
+      precision: 1
+      input_type: holding      
+      device_class: current
+    - name: "Inv Current S" #Main out current L2
+      unique_id: foxess_inv1_inv_current_S
+      scan_interval: 30
+      address: 31010
+      state_class: measurement
+      unit_of_measurement: "A"
+      data_type: int16
+      scale: 0.1
+      precision: 1
+      input_type: holding      
+      device_class: current
+    - name: "Inv Current T" #Main out current L3
+      unique_id: foxess_inv1_inv_current_T
+      scan_interval: 30
+      address: 31011
+      state_class: measurement
+      unit_of_measurement: "A"
+      data_type: int16
+      scale: 0.1
+      precision: 1
+      input_type: holding      
+      device_class: current
+    - name: "Inv Power R"
+      unique_id: foxess_inv1_inv_power_R
+      scan_interval: 30
+      slave: 247
+      address: 31012
+      state_class: measurement
+      unit_of_measurement: "W"
+      data_type: int16
+      scale: 1
+      precision: 0
+      input_type: holding  
+      device_class: power
+    - name: "Inv Power S"
+      unique_id: foxess_inv1_inv_power_S
+      scan_interval: 30
+      slave: 247
+      address: 31013
+      state_class: measurement
+      unit_of_measurement: "W"
+      data_type: int16
+      scale: 1
+      precision: 0
+      input_type: holding  
+      device_class: power
+    - name: "Inv Power T"
+      unique_id: foxess_inv1_inv_power_T
+      scan_interval: 30
+      slave: 247
+      address: 31014
+      state_class: measurement
+      unit_of_measurement: "W"
+      data_type: int16
+      scale: 1
+      precision: 0
+      input_type: holding  
+      device_class: power
+    - name: "Grid Freq" # Grid Frequency
+      unique_id: foxess_inv1_grid_frequency
+      scan_interval: 30
+      slave: 247
+      address: 31015
+      state_class: measurement
+      unit_of_measurement: "Hz"
+      data_type: int16
+      scale: 0.01
+      precision: 2
+      input_type: holding
+      device_class: frequency
       #Some adrresses (31009-31021) unknown, because I used the EPS output so far. Might be about output to grid/smart meter incoming values
-    - name: "L1 Power"
+    - name: "L1 Power" # eps power
       unique_id: foxess_inv1_eps_power_R
       scan_interval: 30
       slave: 247
@@ -141,7 +222,7 @@
       precision: 0
       input_type: holding  
       device_class: power
-    - name: "L2 Power"
+    - name: "L2 Power" # eps power
       unique_id: foxess_inv1_eps_power_S
       scan_interval: 30
       slave: 247
@@ -153,7 +234,7 @@
       precision: 0
       input_type: holding  
       device_class: power
-    - name: "L3 Power"
+    - name: "L3 Power" # eps power
       unique_id: foxess_inv1_eps_power_T
       scan_interval: 30
       slave: 247
