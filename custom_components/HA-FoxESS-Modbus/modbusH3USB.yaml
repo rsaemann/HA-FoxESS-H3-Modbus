@@ -20,6 +20,7 @@
 
   sensors:
     - name: "PV1-Voltage"
+      unique_id: foxess_inv1_pv1_voltage
       scan_interval: 30
       slave: 247
       address: 31000
@@ -31,6 +32,7 @@
       input_type: holding
       device_class: voltage
     - name: "PV1-Current"
+      unique_id: foxess_inv1_pv1_current
       scan_interval: 30
       slave: 247
       address: 31001
@@ -42,6 +44,7 @@
       input_type: holding      
       device_class: current
     - name: "PV1-Power"
+      unique_id: foxess_inv1_pv1_power
       scan_interval: 30
       slave: 247
       address: 31002
@@ -53,6 +56,7 @@
       input_type: holding      
       device_class: power
     - name: "PV2-Voltage"
+    unique_id: foxess_inv1_pv2_voltage
       scan_interval: 30
       slave: 247
       address: 31003
@@ -64,6 +68,7 @@
       input_type: holding
       device_class: voltage
     - name: "PV2-Current"
+      unique_id: foxess_inv1_pv2_current
       scan_interval: 30
       slave: 247
       address: 31004
@@ -75,6 +80,7 @@
       input_type: holding      
       device_class: current
     - name: "PV2-Power"
+      unique_id: foxess_inv1_pv2_power
       scan_interval: 30
       slave: 247
       address: 31005
@@ -87,6 +93,7 @@
       device_class: power
 
     - name: "Volt L1" # Grid Voltage
+      unique_id: foxess_inv1_grid_voltage_R
       scan_interval: 30
       slave: 247
       address: 31006
@@ -98,6 +105,7 @@
       input_type: holding
       device_class: voltage
     - name: "Volt L2" # Grid Voltage
+      unique_id: foxess_inv1_grid_voltage_S
       scan_interval: 30
       slave: 247
       address: 31007
@@ -109,6 +117,7 @@
       input_type: holding
       device_class: voltage
     - name: "Volt L3" # Grid Voltage
+      unique_id: foxess_inv1_grid_voltage_T
       scan_interval: 30
       slave: 247
       address: 31008
@@ -121,6 +130,7 @@
       device_class: voltage
       #Some adrresses (31009-31021) unknown, because I used the EPS output so far. Might be about output to grid/smart meter incoming values
     - name: "L1 Power"
+      unique_id: foxess_inv1_eps_power_R
       scan_interval: 30
       slave: 247
       address: 31022
@@ -132,6 +142,7 @@
       input_type: holding  
       device_class: power
     - name: "L2 Power"
+      unique_id: foxess_inv1_eps_power_S
       scan_interval: 30
       slave: 247
       address: 31023
@@ -143,6 +154,7 @@
       input_type: holding  
       device_class: power
     - name: "L3 Power"
+      unique_id: foxess_inv1_eps_power_T
       scan_interval: 30
       slave: 247
       address: 31024
@@ -155,6 +167,7 @@
       device_class: power
       
     - name: "Freq" # Grid Frequency
+      unique_id: foxess_inv1_eps_frequency
       scan_interval: 30
       slave: 247
       address: 31025
@@ -188,6 +201,7 @@
     #  device_class: power
     
     - name: "Inv Temperature"
+      unique_id: foxess_inv1_inverter_temperature
       scan_interval: 30
       slave: 247
       address: 31032
@@ -199,6 +213,7 @@
       device_class: temperature
       input_type: holding    
     - name: "Inner Temperature"
+      unique_id: foxess_inv1_internal_temperature
       scan_interval: 30
       slave: 247
       address: 31033
@@ -211,6 +226,7 @@
       input_type: holding
       
     - name: "Battery Voltage"
+      unique_id: foxess_inv1_battery_voltage
       scan_interval: 30
       address: 31034
       state_class: measurement
@@ -221,6 +237,7 @@
       device_class: voltage
       input_type: holding
     - name: "Battery Current"
+      unique_id: foxess_inv1_battery_current
       scan_interval: 30
       address: 31035
       state_class: measurement
@@ -230,7 +247,8 @@
       precision: 1
       input_type: holding      
       device_class: current
-    - name: "Battery Discharge Power"
+    - name: "Battery Discharge Power" #negative values=charging battery
+      unique_id: foxess_inv1_battery_power
       scan_interval: 30
       slave: 247
       address: 31036
@@ -242,6 +260,7 @@
       input_type: holding    
       device_class: power
     - name: "Battery Temperature"
+      unique_id: foxess_inv1_battery_temperature
       scan_interval: 60
       slave: 247
       address: 31037
@@ -253,6 +272,7 @@
       input_type: holding
       device_class: temperature
     - name: "Battery SoC"
+      unique_id: foxess_inv1_battery_soc
       scan_interval: 30
       slave: 247
       address: 31038
@@ -264,6 +284,7 @@
 
 #cumulative values of Energy
     - name: "PV Energy total"
+      unique_id: foxess_inv1_total_pv_energy
       scan_interval: 60
       slave: 247
       address: 32001
@@ -275,6 +296,7 @@
       input_type: holding
       device_class: energy
     - name: "PV Energy daily"
+      unique_id: foxess_inv1_daily_pv_energy
       scan_interval: 60
       slave: 247
       address: 32002
@@ -287,6 +309,7 @@
       device_class: energy
       
     - name: "Battery Charge Energy total"
+      unique_id: foxess_inv1_total_charge_energy
       scan_interval: 60
       slave: 247
       address: 32004
@@ -298,6 +321,7 @@
       input_type: holding
       device_class: energy
     - name: "Battery Charge Energy daily"
+      unique_id: foxess_inv1_daily_charge_energy
       scan_interval: 60
       slave: 247
       address: 32005
@@ -310,6 +334,7 @@
       device_class: energy
       
     - name: "Battery Discharge Energy total"
+      unique_id: foxess_inv1_total_discharge_energy
       scan_interval: 60
       slave: 247
       address: 32007
@@ -321,6 +346,7 @@
       input_type: holding
       device_class: energy
     - name: "Battery Discharge Energy daily"
+      unique_id: foxess_inv1_daily_discharge_energy
       scan_interval: 60
       slave: 247
       address: 32008
@@ -333,6 +359,7 @@
       device_class: energy
       ## Some addresses (320010-32020) not known here, might be about grid/smartmeter values 
     - name: "EPS Energy total"
+      unique_id: foxess_inv1_total_load_energy
       scan_interval: 60
       slave: 247
       address: 32022
@@ -344,6 +371,7 @@
       input_type: holding
       device_class: energy
     - name: "EPS Energy daily"
+      unique_id: foxess_inv1_daily_load_energy
       scan_interval: 60
       slave: 247
       address: 32023
