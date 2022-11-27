@@ -197,7 +197,7 @@
       precision: 0
       input_type: holding  
       device_class: power
-    - name: "Grid Freq" # Grid Frequency
+    - name: "Grid Frequency" # Grid Frequency
       unique_id: foxess_inv1_grid_frequency
       scan_interval: 30
       slave: 247
@@ -261,27 +261,6 @@
       input_type: holding
       device_class: frequency
       
-    #- name: "Grid CT"
-    #  scan_interval: 30
-    #  address: 31014
-    #  state_class: measurement
-    #  unit_of_measurement: "W"
-    #  data_type: int16
-    #  scale: 1
-    #  precision: 0
-    #  input_type: holding    
-    #  device_class: power
-    #- name: "Load Power"    #H3 has 3 individual power loads ( per line)
-    #  scan_interval: 30
-    #  address: 31016
-    #  state_class: measurement
-    #  unit_of_measurement: "W"
-    #  data_type: int16
-    #  scale: 1
-    #  precision: 0
-    #  input_type: holding    
-    #  device_class: power
-    
     - name: "Inv Temperature"
       unique_id: foxess_inv1_inverter_temperature
       scan_interval: 30
