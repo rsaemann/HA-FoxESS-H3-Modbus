@@ -89,7 +89,7 @@ template:
             {% else %}
             0 
             {% endif %}
-      - name: "Load power"
+      - name: "Inverter Load power"
         device_class: "power"
         unit_of_measurement: "W"
         state: >
@@ -104,21 +104,21 @@ template:
             + states('sensor.meter_power_s') | float(default=0)
             + states('sensor.meter_power_t') | float(default=0)
             }}
-      - name: "Feed In Power"
+      - name: "Inverter Feed In Power"
         device_class: "power"
         unit_of_measurement: "W"
         state: >
-            {% if (states('sensor.meter_power') | float(default=0) ) > 0 %}
-            {{ states('sensor.meter_power') | float(default=0) }}
+            {% if (states('sensor.inverter_load_power') | float(default=0) ) > 0 %}
+            {{ states('sensor.inverter_load_power') | float(default=0) }}
             {% else %}
             0 
             {% endif %}
-      - name: "Grid Consumption"
+      - name: "Inverter Grid Consumption"
         device_class: "power"
         unit_of_measurement: "W"
         state: >
-            {% if (states('sensor.meter_power') | float(default=0) ) < 0 %}
-            {{ states('sensor.meter_power') | float(default=0) * -1 }}
+            {% if (states('sensor.inverter_load_power') | float(default=0) ) < 0 %}
+            {{ states('sensor.inverter_load_power') | float(default=0) * -1 }}
             {% else %}
             0 
             {% endif %}
@@ -127,24 +127,22 @@ template:
         unit_of_measurement: "W"
         state: >
               {{ (states('sensor.pv1_power') | float(default=0) + states('sensor.pv2_power') | float(default=0) ) }}
-      - name: "System Losses"
+      - name: "Inverter System Losses"
         device_class: "power"
         unit_of_measurement: "W"
         state: >
                {{ ((states('sensor.pv1_power') | float(default=0)
                + states('sensor.pv2_power') | float(default=0)
-               + states('sensor.grid_consumption') | float(default=0)
-               + states('sensor.battery_discharge') | float(default=0)
-               - states('sensor.battery_charge') | float(default=0)
-               - states('sensor.feed_in_power') | float(default=0)
-               - states('sensor.load_power') | float(default=0) )) | round(2) }}
+               + states('sensor.inverter_grid_consumption') | float(default=0) 
+               + states('sensor.battery_discharge_power') | float(default=0) 
+               - states('sensor.inverter_load_power') | float(default=0) )) | round(2) }}
       - name: "EPS remaining time"
         device_class: "duration"
         unit_of_measurement: "hours"
         # hardcoded values here: 20% minimum SoC (not usable), 14kWh battery total capacity -> 140 kwh/% strange unit
         state: >
                {{ (((states('sensor.battery_soc') | float(default=0)) -20)*140
-               / (states('sensor.load_power') | float(default=0))) | round(2) }}
+               / (states('sensor.inverter_load_power') | float(default=0))) | round(2) }}
 # Utility Meters - Provides meters to be used with the energy dashboard and reset daily
 utility_meter:
   #load_daily:  #can be replaced by "Inv Load Energy daily" 
