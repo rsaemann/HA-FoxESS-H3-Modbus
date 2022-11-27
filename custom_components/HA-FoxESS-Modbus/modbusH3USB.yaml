@@ -56,7 +56,7 @@
       input_type: holding      
       device_class: power
     - name: "PV2-Voltage"
-    unique_id: foxess_inv1_pv2_voltage
+      unique_id: foxess_inv1_pv2_voltage
       scan_interval: 30
       slave: 247
       address: 31003
