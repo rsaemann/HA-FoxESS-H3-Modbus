@@ -26,47 +26,6 @@ sensor:
     round: 2
     source: sensor.pv2_power
     unit_time: h
-  #- method: left
-  #  name: pv_total_sum  #can be replaced by sensor.pv_energy_total ("PV Energy total", register 32002)
-  #  platform: integration
-  #  round: 2
-  #  source: sensor.pv_power_now
-  #  unit_time: h
-  
-  #- method: left
-  #  name: load_sum  #can be replaced by "Inv Load Energy total", register 32022)
-  #  platform: integration
-  #  round: 2
-  #  source: sensor.load_power
-  #  unit_time: h
-  
-  #- method: left
-  #  name: bat_charge_sum #can be replaced by "Battery Charge Energy total"
-  #  platform: integration
-  #  round: 2
-  #  source: sensor.battery_charge
-  #  unit_time: h
-  
-  #- method: left
-  #  name: bat_discharge_sum  #can be replaced by "Battery Discharge Energy total"
-  #  platform: integration
-  #  round: 2
-  #  source: sensor.battery_discharge
-  #  unit_time: h
-  
-  #- method: left
-  #  name: feedin_sum  #can be replaced by "Meter Feed-in Energy total"
-  #  platform: integration
-  #  round: 2
-  #  source: sensor.feed_in_power
-  #  unit_time: h
-  
-  #- method: left
-  #  name: grid_consumption_sum #can be replaced by "Meter Consumption Energy total"
-  #  platform: integration
-  #  round: 2
-  #  source: sensor.grid_consumption
-  #  unit_time: h
 
  #Templates enable math operations against states/values to give us better data
 template:
@@ -104,7 +63,7 @@ template:
             + states('sensor.meter_power_s') | float(default=0)
             + states('sensor.meter_power_t') | float(default=0)
             }}
-      - name: "Inverter Feed In Power"
+      - name: "Inverter Feed In Power"  #positive or zero
         device_class: "power"
         unit_of_measurement: "W"
         state: >
@@ -113,7 +72,7 @@ template:
             {% else %}
             0 
             {% endif %}
-      - name: "Inverter Grid Consumption"
+      - name: "Inverter Grid Consumption"  #positive or zero
         device_class: "power"
         unit_of_measurement: "W"
         state: >
@@ -145,21 +104,12 @@ template:
                / (states('sensor.inverter_load_power') | float(default=0))) | round(2) }}
 # Utility Meters - Provides meters to be used with the energy dashboard and reset daily
 utility_meter:
-  #load_daily:  #can be replaced by "Inv Load Energy daily" 
-  #  source: sensor.load_sum
-  #  cycle: daily
   pv1_daily:
     source: sensor.pv1_sum
     cycle: daily
   pv2_daily:
     source: sensor.pv2_sum
     cycle: daily
-  #feedin_daily:  #can be replaced by "Meter Feed-in Energy daily"
-  #  source: sensor.feedin_sum
-  #  cycle: daily
-  #grid_daily:   #can be replaced by "Meter Consumption Energy daily"
-  #  source: sensor.grid_consumption_sum
-  #  cycle: daily
   losses_daily:
     source: sensor.losses_sum
     cycle: daily
