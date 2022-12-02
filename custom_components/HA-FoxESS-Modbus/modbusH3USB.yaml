@@ -316,7 +316,7 @@
       unique_id: foxess_inv1_load_power_s
       scan_interval: 30
       slave: 247
-      address: 31029
+      address: 31030
       state_class: measurement
       unit_of_measurement: "W"
       data_type: int16
@@ -328,7 +328,7 @@
       unique_id: foxess_inv1_load_power_t
       scan_interval: 30
       slave: 247
-      address: 31029
+      address: 31031
       state_class: measurement
       unit_of_measurement: "W"
       data_type: int16
