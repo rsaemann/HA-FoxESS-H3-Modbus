@@ -91,19 +91,25 @@ The [origin project](https://github.com/StealthChesnut/HA-FoxESS-Modbus) support
 
 ### Energy Dashboard Values
 
-**Electricity Grid**
-- eps-daily
-- consumption-daily
+**Grid Consumption**
+- meter_consumption_energy_daily  (only when SmartMeter is connected to inverter)
+- inv_load_energy_daily  (inverter's output. use for island system)
+
+**Return to Grid**
+- meter_feed_in_energy_daily (only when SmartMeter is connected to inverter)
 
 **Solar Panels**
 
 - pv1_daily
 - pv2_daily
 
+  As an alternative:
+- pv_energy_daily (direct cumulative PV1+PV2 from inverter)
+
 **Home Batteries**
 
-- bat_charge_daily
-- bat_discharge_daily
+- battery_charge_energy_daily
+- battery_discharge_energy_daily
 
 ## Provided Entities
 
@@ -124,4 +130,39 @@ Please read and understand before using this plugin:
 You have been warned!
 
 ---
+## Troubleshooting
 
+If you encounter modbus reading errors:
+- Disable unneeded sensors by commenting all lines, or delete the entries. [It was found](https://github.com/StealthChesnut/HA-FoxESS-Modbus/issues/62) that ``battery_voltage`` and ``battery_current`` are two sensors that do not respond to status requests correctly.
+  <details><summary>Comment out in the modbusH3USB.yaml file</summary>
+   <p>
+      
+  ```
+  #  - name: "Battery Voltage"
+  #    unique_id: foxess_inv1_battery_voltage
+  #    scan_interval: 30
+  #    address: 31034
+  #    state_class: measurement
+  #    unit_of_measurement: "V"
+  #    data_type: int16
+  #    scale: 0.1
+  #    precision: 1
+  #    device_class: voltage
+  #    input_type: holding
+  #  - name: "Battery Current"
+  #    unique_id: foxess_inv1_battery_current
+  #    scan_interval: 30
+  #    address: 31035
+  #    state_class: measurement
+  #    unit_of_measurement: "A"
+  #    data_type: int16
+  #    scale: 0.1
+  #    precision: 1
+  #    input_type: holding      
+  #    device_class: current
+  ```
+      
+   </p>
+</details>
+
+- Increase the ``scan_interval`` for sensors that are not needed. The HA modbus integration requests every sensor register with a single call. If you have a large number of sensors here, the calls might interfere with each other.
