@@ -65,9 +65,7 @@ The [origin project](https://github.com/StealthChesnut/HA-FoxESS-Modbus) support
 
 <p>The aim of this project is to enable the full use of the Energy dashboard in Home Assistant and is a fully functional replacement of the FoxESS App for reporting needs.</p>
 
-## HACS Specific Installation (not tested)
-* Add this repository to your HACS custom integrations
-* Install from HACS
+## ⚠️ Installation via HACS does not work for this fork due to naming convention
 
 ## Manual Specific installation
 * Create the directory structure /config/custom_components/HA-FoxESS-Modbus/ (use the "file editor" addon of HA)
