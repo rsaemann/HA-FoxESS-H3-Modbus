@@ -18,7 +18,7 @@ Connecting to your H3 inverter can be acheived by:
 * Connecting to the COM port using a [RS485 to USB](https://www.reichelt.de/raspberry-pi-usb-rs485-schnittstelle-ch340c-rpi-usb-rs485-p242783.html?&nbc=1) (Approved)
 ⚠️ Additional hardware requires basic electronics competencies to connect the two additional wires for the RS485 interface to the inverters com connector.⚠️
 
-⚠️ Using the inverters LAN port connected to your router/switch (no additional hardware required) could not be approved for H3 inverters. Port 502 was not open. This solution might be fixed with future firmware. It is not possible with firmware version Master 1.25, Slave 1.02, Manage 1.29 ⚠️
+⚠️ Using the inverters LAN port to connect to your router/switch via Ethernet does not work for H3 inverters, yet. Port 502 is not open. This solution might be fixed with future firmware. It is not possible with firmware version Master 1.25, Slave 1.02, Manage 1.29 ⚠️
  
 
 
@@ -29,11 +29,12 @@ Connecting to your H3 inverter can be acheived by:
 This fork adds support for the <br><img align="right" width=200 src="https://user-images.githubusercontent.com/13150440/200159634-6bfa1123-b9eb-4f78-b89a-3da9743b2b6f.PNG">
 **Hybrid Series H3**<br>
 Tested with<br>
+✅ H3-5.0-E <br>
 ✅ H3-8.0-E <br>
 ✅ H3-10.0-E <br>
 <br>
 Designed but not tested: <br>
- H3-5.0-E <br>
+
  H3-6.0-E <br>
 
  H3-12.0-E <br>
