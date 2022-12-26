@@ -419,7 +419,49 @@
       data_type: int16
       input_type: holding
       device_class: battery
-
+# Status and Errors
+    - name: "Inverter State Code"
+      unique_id: foxess_inv1_state_code
+      scan_interval: 60
+      slave: 247
+      address: 31041
+      state_class: measurement
+      data_type: uint16
+      input_type: holding
+    - name: "Inverter Fault 1 Code"
+      unique_id: foxess_inv1_fault1_code
+      scan_interval: 60
+      slave: 247
+      address: 31044
+      state_class: measurement
+      data_type: uint16
+      input_type: holding
+    - name: "Inverter Fault 2 Code"
+      unique_id: foxess_inv1_fault2_code
+      scan_interval: 60
+      slave: 247
+      address: 31045
+      state_class: measurement
+      data_type: uint16
+      input_type: holding
+    - name: "Inverter Fault 3 Code"
+      unique_id: foxess_inv1_fault3_code
+      scan_interval: 60
+      slave: 247
+      address: 31046
+      state_class: measurement
+      data_type: uint16
+      input_type: holding
+# Name
+    - name: "Inverter Model"
+      unique_id: foxess_inv1_model
+      scan_interval: 600
+      slave: 247
+      address: 30000
+      count: 16
+      state_class: measurement
+      data_type: string
+      input_type: holding
 #cumulative values of Energy
     - name: "PV Energy total"
       unique_id: foxess_inv1_total_pv_energy
