@@ -13,12 +13,12 @@
 
 ---
 
-Connecting to your H3 inverter can be acheived by:  
+Connecting your H3 inverter can be acheived by:  
    
-* Connecting to the COM port using a [RS485 to USB](https://www.reichelt.de/raspberry-pi-usb-rs485-schnittstelle-ch340c-rpi-usb-rs485-p242783.html?&nbc=1) (Approved)
-⚠️ Additional hardware requires basic electronics competencies to connect the two additional wires for the RS485 interface to the inverters com connector.⚠️
+* Connecting to the (RasPi's) COM port using a [RS485 to USB](https://www.reichelt.de/raspberry-pi-usb-rs485-schnittstelle-ch340c-rpi-usb-rs485-p242783.html?&nbc=1) (Approved)
+* Connecting to the home WiFi using a RS485 to WiFi dongle like the 'Elfin EW11A RS485 to WIFI converter' (Connects the RS485 pins on your inverter. This does not use the inverter's build-in WiFi or Ethernet connection.)
 
-⚠️ Using the inverters LAN port to connect to your router/switch via Ethernet does not work for H3 inverters, yet. Port 502 is not open. This solution might be fixed with future firmware. It is not possible with firmware version Master 1.25, Slave 1.02, Manage 1.29 ⚠️
+* ⚠️ Using the inverter's Ethernet LAN port or dongle to connect to your router/switch via Ethernet does **not** work for H3 inverters, yet. Port 502 is not open. This solution might be fixed with future firmware. It is not possible with firmware version Master 1.25-1.57, Slave 1.02, Manager 1.29 ⚠️
  
 
 
@@ -26,28 +26,23 @@ Connecting to your H3 inverter can be acheived by:
 
 
 ## Supported Hardware
-This fork adds support for the <br><img align="right" width=200 src="https://user-images.githubusercontent.com/13150440/200159634-6bfa1123-b9eb-4f78-b89a-3da9743b2b6f.PNG">
+This fork adds support for the <br><img align="right" width=180 src="https://user-images.githubusercontent.com/13150440/200159634-6bfa1123-b9eb-4f78-b89a-3da9743b2b6f.PNG">
 **Hybrid Series H3**<br>
 Tested with<br>
 ✅ H3-5.0-E <br>
 ✅ H3-8.0-E <br>
 ✅ H3-10.0-E <br>
+✅ H3-12.0-E <br>
 <br>
-Designed but not tested: <br>
-
- H3-6.0-E <br>
-
- H3-12.0-E <br>
-Please report if everything works well with these.
 
 The [origin project](https://github.com/StealthChesnut/HA-FoxESS-Modbus) supports 1-phase Inverters
-**Hybrid Series** <br> <img align="right" width=200 src="https://user-images.githubusercontent.com/6324545/166170598-7077d481-4d65-49b5-9816-1873c97dd853.png" >
+**Hybrid Series** <br> 
 ✅ H1-3.0-E <br>
 ✅ H1-3.7-E <br>
 ✅ H1-4.6-E <br>
 ✅ H1-5.0-E <br>
 ✅ H1-6.0-E <br>
-**AC Series** <br>
+**AC Series** <br><img align="right" width=180 src="https://user-images.githubusercontent.com/6324545/166170598-7077d481-4d65-49b5-9816-1873c97dd853.png" >
 ✅ AC-3.0-E <br>
 ✅ AC-3.7-E <br>
 ✅ AC-4.6-E <br>
@@ -70,17 +65,19 @@ The [origin project](https://github.com/StealthChesnut/HA-FoxESS-Modbus) support
 
 ## Manual Specific installation
 * Create the directory structure /config/custom_components/HA-FoxESS-Modbus/ (use the "file editor" addon of HA)
-* Copy the Required modbus file to /config/custom_components/HA-FoxESS-Modbus/modbusH3USB.yaml
+* Copy the required modbus file to /config/custom_components/HA-FoxESS-Modbus/
+  * if you go with serial cable to USB connection use /config/custom_components/HA-FoxESS-Modbus/modbusH3USB.yaml
+  * if you go with wifi to RS485 dongle use /config/custom_components/HA-FoxESS-Modbus/modbusLAN-H3.yaml
 
 ## Then, Common Installation Steps
 
 * Create a full backup of your HA instance including the configuration.yaml file
-* Copy the Required modbus line (USB) and following contents of the [configuration.yaml](https://github.com/rsaemann/HA-FoxESS-H3-Modbus/blob/main/custom_components/HA-FoxESS-Modbus/configuration.yaml) file to your config file
+* Copy the required modbus line (USB or Wifi) and following contents of the [configuration.yaml](https://github.com/rsaemann/HA-FoxESS-H3-Modbus/blob/main/custom_components/HA-FoxESS-Modbus/configuration.yaml) file to your config file
 * Check your config is valid, then Restart HA
 * Map energy dashboard as per below example and enjoy configuring dashboards using near realtime data.
 
 
-[Step by step walkthrough of the setup](https://youtu.be/uMPr0V6lTHg)
+[Step by step walkthrough of the setup (for the H1 inverter fork)](https://youtu.be/uMPr0V6lTHg)
 ![image](https://user-images.githubusercontent.com/6324545/166504169-81fd77e8-df5b-40f0-9c1f-9735e59b2723.png)
 
 ## Engergy Dashboard Configuration
@@ -127,7 +124,7 @@ Please read and understand before using this plugin:
 
 > This plugin has been developed as a personal project, with no connection to the official brand of FoxESS, use of this plugin is intended for use by the community without fee but has no warrenty or liability should any damage, harm or undesired results happen as a result of using this plugin. We strongly recommend that only competently trained individuals attempt to wire the additional connections required for this plugin to function. There is a risk of personal or device damage/harm.
 You have been warned!
-
+> This modbus integration is read-only. You cannot change the behaviour of your inverter or set any values.
 ---
 ## Troubleshooting
 
