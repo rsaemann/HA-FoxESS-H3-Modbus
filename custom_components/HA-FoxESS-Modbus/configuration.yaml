@@ -10,7 +10,9 @@
 #
 
 # This defines where your HA looks up the credentials and sensor definition for the inverter
-modbus: !include custom_components/HA-FoxESS-Modbus/modbusH3USB.yaml
+# Only use ONE of the following two lines:
+modbus: !include custom_components/HA-FoxESS-Modbus/modbusH3USB.yaml  #if you go with RS485 cable to usb
+modbus: !include custom_components/HA-FoxESS-Modbus/modbusLAN-H3.yaml  #if you go with RS485 WiFi
 
 #Sensors turn power values into power/hour values for meters
 sensor: 
@@ -55,14 +57,7 @@ template:
                {{ (states('sensor.load_power_r') | float(default=0)
                + states('sensor.load_power_s') | float(default=0)
                + states('sensor.load_power_t') | float(default=0)) | round(2) }}
-      - name: "Meter Power"
-        device_class: "power"
-        unit_of_measurement: "W" #negative=consumption/importing from grid
-        state: >
-            {{ states('sensor.meter_power_r') | float(default=0)
-            + states('sensor.meter_power_s') | float(default=0)
-            + states('sensor.meter_power_t') | float(default=0)
-            }}
+      
       - name: "Inverter Feed In Power"  #positive or zero
         device_class: "power"
         unit_of_measurement: "W"
@@ -82,11 +77,54 @@ template:
             0 
             {% endif %}
       - name: "PV Power Now"
+        unique_id: foxess_inv1_pv_power_now
         device_class: "power"
         unit_of_measurement: "W"
         state: >
               {{ (states('sensor.pv1_power') | float(default=0) + states('sensor.pv2_power') | float(default=0) ) }}
+
+      - name: "EPS remaining time"
+        device_class: "duration"
+        unit_of_measurement: "hours"
+        # hardcoded values here: 20% minimum SoC (not usable), 14kWh battery total capacity -> 140 kwh/% strange unit
+        state: >
+               {{ (((states('sensor.battery_soc') | float(default=0)) -20)*140
+               / (states('sensor.inverter_load_power') | float(default=0))) | round(2) }}
+      - name: "Inverter State String"
+        unique_id: foxess_inv1_state_string
+        state: >
+            {% if (states('sensor.inverter_state_code'))  == "0" %}
+            Waiting
+            {% elif (states('sensor.inverter_state_code')) == "1"%}
+            Selfcheck
+            {% elif (states('sensor.inverter_state_code')) == "2"%}
+            Ongrid 
+            {% elif (states('sensor.inverter_state_code')) == "3"%}
+            EPS 
+            {% elif (states('sensor.inverter_state_code')) == "4"%}
+            Fault  
+            {% elif (states('sensor.inverter_state_code')) == "5"%}
+            Fault 
+            {% elif (states('sensor.inverter_state_code')) == "6"%}
+            Idle 
+            {% else%}
+            Unknown
+            {% endif %}
+      - name: "Meter Power"
+        unique_id: foxess_meter_power
+        device_class: "power"
+        unit_of_measurement: "W" #negative=consumption/importing from grid
+        state: >
+            {{ states('sensor.meter_power_r') | float(default=0)
+            + states('sensor.meter_power_s') | float(default=0)
+            + states('sensor.meter_power_t') | float(default=0)
+            }}
+  - trigger:
+    - platform: state
+      entity_id: sensor.battery_discharge_power
+    sensor: 
       - name: "Inverter System Losses"
+        unique_id: foxess_inv1_system_losses
         device_class: "power"
         unit_of_measurement: "W"
         state: >
@@ -95,13 +133,6 @@ template:
                + states('sensor.inverter_grid_consumption') | float(default=0) 
                + states('sensor.battery_discharge_power') | float(default=0) 
                - states('sensor.inverter_load_power') | float(default=0) )) | round(2) }}
-      - name: "EPS remaining time"
-        device_class: "duration"
-        unit_of_measurement: "hours"
-        # hardcoded values here: 20% minimum SoC (not usable), 14kWh battery total capacity -> 140 kwh/% strange unit
-        state: >
-               {{ (((states('sensor.battery_soc') | float(default=0)) -20)*140
-               / (states('sensor.inverter_load_power') | float(default=0))) | round(2) }}
 # Utility Meters - Provides meters to be used with the energy dashboard and reset daily
 utility_meter:
   pv1_daily:
@@ -110,6 +141,6 @@ utility_meter:
   pv2_daily:
     source: sensor.pv2_sum
     cycle: daily
-  losses_daily:
-    source: sensor.losses_sum
-    cycle: daily
+ # losses_daily:
+ #   source: sensor.losses_sum
+ #   cycle: daily
