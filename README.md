@@ -16,7 +16,7 @@
 Connecting your H3 inverter can be acheived by:  
    
 * Connecting to the (RasPi's) COM port using a [RS485 to USB](https://www.reichelt.de/raspberry-pi-usb-rs485-schnittstelle-ch340c-rpi-usb-rs485-p242783.html?&nbc=1) (Approved)
-* Connecting to the home WiFi using a RS485 to WiFi dongle like the 'Elfin EW11A RS485 to WIFI converter' (Connects the RS485 pins on your inverter. This does not use the inverter's build-in WiFi or Ethernet connection.)
+* Connecting to the home WiFi using a RS485 to WiFi dongle like the 'Elfin EW11A RS485 to WIFI converter' (Connects the RS485 pins on your inverter. This does not use the inverter's build-in WiFi or Ethernet connection.) Pin 1 (the one closer to the center) of the FoxESS RS485 connector goes to Terminal A of the RS485 to Wifi adapter and pin 2 of the FoxESS connector goes to Terminal B. In the menu of the Wifi adapter in the TCP settings port 502 must be set. In the serial port settings the following parameters work for me: Baud Rate 9600, Data Bit 8, Stop Bit 1, Parity "none". Buffer Size 512, Gap Time 50, Flow Control "half duplex", Cli "serial string, Serial String "+++", Waiting Time 300, Protocol "modbus". I will attach a backup file which you can use, just replace "mySSID" with yourwifi name and "1111" with your wifi password. 
 
 * ⚠️ Using the inverter's Ethernet LAN port or dongle to connect to your router/switch via Ethernet does **not** work for H3 inverters, yet. Port 502 is not open. This solution might be fixed with future firmware. It is not possible with firmware version Master 1.25-1.57, Slave 1.02, Manager 1.29 ⚠️
  
