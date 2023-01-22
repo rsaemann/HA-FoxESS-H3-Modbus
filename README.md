@@ -30,6 +30,7 @@ This fork adds support for the <br><img align="right" width=180 src="https://use
 **Hybrid Series H3**<br>
 Tested with<br>
 ✅ H3-5.0-E <br>
+✅ H3-6.0-E <br>
 ✅ H3-8.0-E <br>
 ✅ H3-10.0-E <br>
 ✅ H3-12.0-E <br>
