@@ -31,7 +31,7 @@ sensor:
 
  #Templates enable math operations against states/values to give us better data
 template:
-  - sensor:
+  - sensor:  #Sensors without triggers change every time when a participating state changes
       - name: "Battery Discharge"  #absolute value. 0 when charging
         device_class: "power"
         unit_of_measurement: "W"
@@ -50,14 +50,7 @@ template:
             {% else %}
             0 
             {% endif %}
-      - name: "Inverter Load power"
-        device_class: "power"
-        unit_of_measurement: "W"
-        state: >
-               {{ (states('sensor.load_power_r') | float(default=0)
-               + states('sensor.load_power_s') | float(default=0)
-               + states('sensor.load_power_t') | float(default=0)) | round(2) }}
-      
+
       - name: "Inverter Feed In Power"  #positive or zero
         device_class: "power"
         unit_of_measurement: "W"
@@ -76,20 +69,7 @@ template:
             {% else %}
             0 
             {% endif %}
-      - name: "PV Power Now"
-        unique_id: foxess_inv1_pv_power_now
-        device_class: "power"
-        unit_of_measurement: "W"
-        state: >
-              {{ (states('sensor.pv1_power') | float(default=0) + states('sensor.pv2_power') | float(default=0) ) }}
 
-      - name: "EPS remaining time"
-        device_class: "duration"
-        unit_of_measurement: "hours"
-        # hardcoded values here: 20% minimum SoC (not usable), 14kWh battery total capacity -> 140 kwh/% strange unit
-        state: >
-               {{ (((states('sensor.battery_soc') | float(default=0)) -20)*140
-               / (states('sensor.inverter_load_power') | float(default=0))) | round(2) }}
       - name: "Inverter State String"
         unique_id: foxess_inv1_state_string
         state: >
@@ -110,6 +90,45 @@ template:
             {% else%}
             Unknown
             {% endif %}
+
+  - trigger:
+    - platform: state
+      entity_id: sensor.battery_discharge_power
+    sensor: 
+
+  - trigger:
+    - platform: time_pattern
+      seconds: "20"
+    sensor:  
+      - name: "PV Power Now"
+        unique_id: foxess_inv1_pv_power_now
+        device_class: "power"
+        unit_of_measurement: "W"
+        state: >
+              {{ (states('sensor.pv1_power') | float(default=0) + states('sensor.pv2_power') | float(default=0) ) }}            
+      - name: "Inverter Load power"
+        device_class: "power"
+        unit_of_measurement: "W"
+        state: >
+               {{ (states('sensor.load_power_r') | float(default=0)
+               + states('sensor.load_power_s') | float(default=0)
+               + states('sensor.load_power_t') | float(default=0)) | round(2) }}
+      - name: "Inverter EPS power" 
+        unique_id: foxess_inv1_eps_power
+        device_class: "power"
+        unit_of_measurement: "W"
+        state: >
+               {{ (states('sensor.eps_power_r') | float(default=0)
+               + states('sensor.eps_power_s') | float(default=0)
+               + states('sensor.eps_power_t') | float(default=0)) | round(1) }}
+      - name: "Inverter Out power"
+        unique_id: foxess_inv1_out_power
+        device_class: "power"
+        unit_of_measurement: "W"
+        state: >
+               {{ (states('sensor.inv_power_r') | float(default=0)
+               + states('sensor.inv_power_s') | float(default=0)
+               + states('sensor.inv_power_t') | float(default=0)) | round(1) }}    
       - name: "Meter Power"
         unique_id: foxess_meter_power
         device_class: "power"
@@ -118,21 +137,45 @@ template:
             {{ states('sensor.meter_power_r') | float(default=0)
             + states('sensor.meter_power_s') | float(default=0)
             + states('sensor.meter_power_t') | float(default=0)
-            }}
-  - trigger:
-    - platform: state
-      entity_id: sensor.battery_discharge_power
-    sensor: 
-      - name: "Inverter System Losses"
+            }}         
+      - name: "House load Power"
+        unique_id: house_load
+        device_class: "power"
+        unit_of_measurement: "W"
+        state: >
+            {{(states('sensor.meter_power')|float(default=0))*-1
+              +states('sensor.inverter_out_power')|float(default=0)}}
+       - name: "Inverter System Losses"
         unique_id: foxess_inv1_system_losses
         device_class: "power"
         unit_of_measurement: "W"
         state: >
                {{ ((states('sensor.pv1_power') | float(default=0)
                + states('sensor.pv2_power') | float(default=0)
-               + states('sensor.inverter_grid_consumption') | float(default=0) 
                + states('sensor.battery_discharge_power') | float(default=0) 
-               - states('sensor.inverter_load_power') | float(default=0) )) | round(2) }}
+               - states('sensor.inverter_eps_power') | float(default=0) )
+               - states('sensor.inverter_out_power') | float(default=0)) | round(2) }}    
+       - name: "EPS remaining time"
+        device_class: "duration"
+        unit_of_measurement: "hours"
+        # hardcoded values here: 20% minimum SoC (not usable), 14kWh battery total capacity -> 140 kwh/% strange unit
+        state: >
+               {{ (((states('sensor.battery_soc') | float(default=0)) -20)*140
+               / (states('sensor.inverter_load_power') | float(default=0))) | round(2) }}              
+              
+  - trigger:
+    - platform: time_pattern
+      minutes: "5"
+    sensor:
+      - name: autarky
+        unique_id: pv_autarky
+        unit_of_measurement: "%"
+        #precision: 1
+        state: >
+          {{((1-((states('sensor.meter_consumption_energy_daily')|float(default=0))/
+          ((states('sensor.inv_load_energy_daily')|float(default=0.0))+(states('sensor.inverter_input_energy_daily')|float(default=0)))
+          ))*100)| round(1)}}
+          
 # Utility Meters - Provides meters to be used with the energy dashboard and reset daily
 utility_meter:
   pv1_daily:
