@@ -41,7 +41,7 @@
       data_type: int16
       scale: 0.1
       precision: 1
-      input_type: holding      
+      input_type: holding
       device_class: current
     - name: "PV1-Power"
       unique_id: foxess_inv1_pv1_power
@@ -53,7 +53,7 @@
       data_type: int16
       scale: 1
       precision: 0
-      input_type: holding      
+      input_type: holding
       device_class: power
     - name: "PV2-Voltage"
       unique_id: foxess_inv1_pv2_voltage
@@ -77,7 +77,7 @@
       data_type: int16
       scale: 0.1
       precision: 1
-      input_type: holding      
+      input_type: holding
       device_class: current
     - name: "PV2-Power"
       unique_id: foxess_inv1_pv2_power
@@ -89,7 +89,7 @@
       data_type: int16
       scale: 1
       precision: 0
-      input_type: holding  
+      input_type: holding
       device_class: power
 #section main grid output
     - name: "Grid Voltage R" # Grid Voltage formerly named: "Volt L1"
@@ -99,8 +99,8 @@
       address: 31006
       state_class: measurement
       unit_of_measurement: "V"
-      data_type: int16
-      precision: 2
+      data_type: uint16
+      precision: 1
       scale: 0.1
       input_type: holding
       device_class: voltage
@@ -111,8 +111,8 @@
       address: 31007
       state_class: measurement
       unit_of_measurement: "V"
-      data_type: int16
-      precision: 2
+      data_type: uint16
+      precision: 1
       scale: 0.1
       input_type: holding
       device_class: voltage
@@ -123,14 +123,15 @@
       address: 31008
       state_class: measurement
       unit_of_measurement: "V"
-      data_type: int16
-      precision: 2
+      data_type: uint16
+      precision: 1
       scale: 0.1
       input_type: holding
       device_class: voltage
     - name: "Inv Current R" #Main out current L1
       unique_id: foxess_inv1_inv_current_R
       scan_interval: 30
+      slave: 247
       address: 31009
       state_class: measurement
       unit_of_measurement: "A"
@@ -142,6 +143,7 @@
     - name: "Inv Current S" #Main out current L2
       unique_id: foxess_inv1_inv_current_S
       scan_interval: 30
+      slave: 247
       address: 31010
       state_class: measurement
       unit_of_measurement: "A"
@@ -153,6 +155,7 @@
     - name: "Inv Current T" #Main out current L3
       unique_id: foxess_inv1_inv_current_T
       scan_interval: 30
+      slave: 247
       address: 31011
       state_class: measurement
       unit_of_measurement: "A"
@@ -204,13 +207,85 @@
       address: 31015
       state_class: measurement
       unit_of_measurement: "Hz"
-      data_type: int16
+      data_type: uint16
       scale: 0.01
       precision: 2
       input_type: holding
       device_class: frequency
 
 #section EPS output
+    - name: "EPS Voltage R"
+      unique_id: foxess_inv1_eps_voltage_R
+      scan_interval: 30
+      slave: 247
+      address: 31016
+      state_class: measurement
+      unit_of_measurement: "V"
+      data_type: uint16
+      precision: 1
+      scale: 0.1
+      input_type: holding
+      device_class: voltage
+    - name: "EPS Voltage S"
+      unique_id: foxess_inv1_eps_voltage_S
+      scan_interval: 30
+      slave: 247
+      address: 31017
+      state_class: measurement
+      unit_of_measurement: "V"
+      data_type: uint16
+      precision: 1
+      scale: 0.1
+      input_type: holding
+      device_class: voltage
+    - name: "EPS Voltage T"
+      unique_id: foxess_inv1_eps_voltage_T
+      scan_interval: 30
+      slave: 247
+      address: 31018
+      state_class: measurement
+      unit_of_measurement: "V"
+      data_type: uint16
+      precision: 1
+      scale: 0.1
+      input_type: holding
+      device_class: voltage
+    - name: "EPS Current R"
+      unique_id: foxess_inv1_eps_current_R
+      scan_interval: 30
+      slave: 247
+      address: 31019
+      state_class: measurement
+      unit_of_measurement: "A"
+      data_type: int16
+      scale: 0.1
+      precision: 1
+      input_type: holding
+      device_class: current
+    - name: "EPS Current S"
+      unique_id: foxess_inv1_eps_current_S
+      scan_interval: 30
+      slave: 247
+      address: 31020
+      state_class: measurement
+      unit_of_measurement: "A"
+      data_type: int16
+      scale: 0.1
+      precision: 1
+      input_type: holding
+      device_class: current
+    - name: "EPS Current T"
+      unique_id: foxess_inv1_eps_current_T
+      scan_interval: 30
+      slave: 247
+      address: 31021
+      state_class: measurement
+      unit_of_measurement: "A"
+      data_type: int16
+      scale: 0.1
+      precision: 1
+      input_type: holding
+      device_class: current
     - name: "EPS Power R" # eps power formerly named:"L1 Power"
       unique_id: foxess_inv1_eps_power_R
       scan_interval: 30
@@ -255,7 +330,7 @@
       address: 31025
       state_class: measurement
       unit_of_measurement: "Hz"
-      data_type: int16
+      data_type: uint16
       scale: 0.01
       precision: 2
       input_type: holding
@@ -348,7 +423,7 @@
       scale: 0.1
       precision: 1
       device_class: temperature
-      input_type: holding    
+      input_type: holding
     - name: "Inner Temperature"
       unique_id: foxess_inv1_internal_temperature
       scan_interval: 30
@@ -366,6 +441,7 @@
     - name: "Battery Voltage"
       unique_id: foxess_inv1_battery_voltage
       scan_interval: 30
+      slave: 247
       address: 31034
       state_class: measurement
       unit_of_measurement: "V"
@@ -377,6 +453,7 @@
     - name: "Battery Current"
       unique_id: foxess_inv1_battery_current
       scan_interval: 30
+      slave: 247
       address: 31035
       state_class: measurement
       unit_of_measurement: "A"
@@ -416,9 +493,33 @@
       address: 31038
       state_class: measurement
       unit_of_measurement: "%"
-      data_type: int16
+      data_type: uint16
       input_type: holding
       device_class: battery
+    - name: "Battery maximum Charge Current"
+      unique_id: foxess_inv1_battery_maximum_charge_current
+      scan_interval: 30
+      slave: 247
+      address: 31039
+      state_class: measurement
+      unit_of_measurement: "A"
+      data_type: uint16
+      scale: 0.1
+      precision: 1
+      input_type: holding
+      device_class: current
+    - name: "Battery maximum Discharge Current"
+      unique_id: foxess_inv1_battery_maximum_discharge_current
+      scan_interval: 30
+      slave: 247
+      address: 31040
+      state_class: measurement
+      unit_of_measurement: "A"
+      data_type: uint16
+      scale: 0.1
+      precision: 1
+      input_type: holding
+      device_class: current
 # Status and Errors
     - name: "Inverter State Code"
       unique_id: foxess_inv1_state_code
@@ -467,12 +568,13 @@
       unique_id: foxess_inv1_total_pv_energy
       scan_interval: 60
       slave: 247
-      address: 32001
+      address: 32000
+      count: 2
       state_class: total_increasing
       unit_of_measurement: "kWh"
       scale: 0.1
       precision: 1
-      data_type: int16
+      data_type: uint32
       input_type: holding
       device_class: energy
     - name: "PV Energy daily"
@@ -484,7 +586,7 @@
       unit_of_measurement: "kWh"
       scale: 0.1
       precision: 1
-      data_type: int16
+      data_type: uint16
       input_type: holding
       device_class: energy
       
@@ -492,12 +594,13 @@
       unique_id: foxess_inv1_total_charge_energy
       scan_interval: 60
       slave: 247
-      address: 32004
+      address: 32003
+      count: 2
       state_class: total_increasing
       unit_of_measurement: "kWh"
       scale: 0.1
       precision: 1
-      data_type: int16
+      data_type: uint32
       input_type: holding
       device_class: energy
     - name: "Battery Charge Energy daily"
@@ -509,7 +612,7 @@
       unit_of_measurement: "kWh"
       scale: 0.1
       precision: 1
-      data_type: int16
+      data_type: uint16
       input_type: holding
       device_class: energy
       
@@ -517,12 +620,13 @@
       unique_id: foxess_inv1_total_discharge_energy
       scan_interval: 60
       slave: 247
-      address: 32007
+      address: 32006
+      count: 2
       state_class: total_increasing
       unit_of_measurement: "kWh"
       scale: 0.1
       precision: 1
-      data_type: int16
+      data_type: uint32
       input_type: holding
       device_class: energy
     - name: "Battery Discharge Energy daily"
@@ -534,7 +638,7 @@
       unit_of_measurement: "kWh"
       scale: 0.1
       precision: 1
-      data_type: int16
+      data_type: uint16
       input_type: holding
       device_class: energy
       # registers working with a connected smart meter only:
@@ -544,12 +648,13 @@
       unique_id: foxess_sm1_total_feedin_energy
       scan_interval: 60
       slave: 247
-      address: 32010
+      address: 32009
+      count: 2
       state_class: total_increasing
       unit_of_measurement: "kWh"
       scale: 0.1
       precision: 1
-      data_type: int16
+      data_type: uint32
       input_type: holding
       device_class: energy
     - name: "Meter Feed-in Energy daily"
@@ -561,19 +666,20 @@
       unit_of_measurement: "kWh"
       scale: 0.1
       precision: 1
-      data_type: int16
+      data_type: uint16
       input_type: holding
       device_class: energy
     - name: "Meter Consumption Energy total"
       unique_id: foxess_sm1_total_consumption_energy
       scan_interval: 60
       slave: 247
-      address: 32013
+      address: 32012
+      count: 2
       state_class: total_increasing
       unit_of_measurement: "kWh"
       scale: 0.1
       precision: 1
-      data_type: int16
+      data_type: uint32
       input_type: holding
       device_class: energy
     - name: "Meter Consumption Energy daily"
@@ -585,19 +691,20 @@
       unit_of_measurement: "kWh"
       scale: 0.1
       precision: 1
-      data_type: int16
+      data_type: uint16
       input_type: holding
       device_class: energy
     - name: "Meter Output Energy total"
       unique_id: foxess_sm1_total_output_energy
       scan_interval: 60
       slave: 247
-      address: 32016
+      address: 32015
+      count: 2
       state_class: total_increasing
       unit_of_measurement: "kWh"
       scale: 0.1
       precision: 1
-      data_type: int16
+      data_type: uint32
       input_type: holding
       device_class: energy
     - name: "Meter Output Energy daily"
@@ -609,19 +716,20 @@
       unit_of_measurement: "kWh"
       scale: 0.1
       precision: 1
-      data_type: int16
+      data_type: uint16
       input_type: holding
       device_class: energy
     - name: "Meter Input Energy total"
       unique_id: foxess_sm1_total_input_energy
       scan_interval: 60
       slave: 247
-      address: 32019
+      address: 32018
+      count: 2
       state_class: total_increasing
       unit_of_measurement: "kWh"
       scale: 0.1
       precision: 1
-      data_type: int16
+      data_type: uint32
       input_type: holding
       device_class: energy
     - name: "Meter Input Energy daily"
@@ -633,7 +741,7 @@
       unit_of_measurement: "kWh"
       scale: 0.1
       precision: 1
-      data_type: int16
+      data_type: uint16
       input_type: holding
       device_class: energy
     #Grid+EPS values? officially: "Load" energy
@@ -641,12 +749,13 @@
       unique_id: foxess_inv1_total_load_energy
       scan_interval: 60
       slave: 247
-      address: 32022
+      address: 32021
+      count: 2
       state_class: total_increasing
       unit_of_measurement: "kWh"
       scale: 0.1
       precision: 1
-      data_type: int16
+      data_type: uint32
       input_type: holding
       device_class: energy
     - name: "Inv Load Energy daily"  #formerly named: "EPS Energy daily"
@@ -658,7 +767,7 @@
       unit_of_measurement: "kWh"
       scale: 0.1
       precision: 1
-      data_type: int16
+      data_type: uint16
       input_type: holding
       device_class: energy
 
