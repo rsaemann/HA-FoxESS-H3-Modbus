@@ -1,3 +1,6 @@
+**. ➡ This Fork is not updated any more as I recommend using the HA Integration by @Nathan Marlor [https://github.com/nathanmarlor/foxess_modbus](https://github.com/nathanmarlor/foxess_modbus) for H3 inverters. 👍 .**
+<br>
+
 <h2 align="center">
    <a href="https://www.fox-ess.com">FoxESS</a> and<a href="https://www.home-assistant.io"> Home Assistant</a> integration via Modbus RS485
    </br></br>
